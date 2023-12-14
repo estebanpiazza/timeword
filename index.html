@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jugamos al Time-Word by Muriel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div class="container text-center">
+        <h1>Jugamos al Time-Word by Muriel</h1>
+        <div class="row align-items-center">
+            <div class="col-12">
+                <h1>Próxima categoría:</h1>
+                <h2 id="categoriaAJugar" style="margin:50px">Click en el boton verde para empezar</h2>
+
+                <button type="button" class="btn btn-success" id="rollear" style="margin-bottom:50px">Siguiente categoría</button>
+            </div>
+            <div class="col-12">
+                                <h2>Personalizar juego:</h2>
+                <input type="text" class="form-control" name="aniadir" placeholder="Escribe una categoria nueva"
+                    id="categoriaPersonalizada" style="width: 30vw;margin:0 auto; display: inline;">
+                <button type="button" class="btn btn-primary" id="agregarCategoria" style="margin-top:-5px!important;">Agregar categoría</button>
+                <hr>
+                <button type="button" class="btn btn-danger" id="reinciar">Reiniciar lista de categorias</button>
+                <button type="button" class="btn btn-secondary" id="myInput"  data-bs-toggle="modal" data-bs-target="#exampleModal">Ver categorías</button>
+                <button type="button" class="btn btn-warning" id="vaciar">Vacíar lista </button>
+            </div>
+
+  
+  <!-- Modal -->
+ 
+
+
+    <div class="modal  fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Categorias</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <p  id="porJugar">
+                            Por Jugar
+                        </p>
+                        </div>
+                        <div class="col" >
+                            <p id="yaJugadas">
+                            Ya jugadas
+                        </p>
+                        </div>
+                    </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+</body>
+<script>
+      let USADAS = []
+    let CATEGORIAS = ["Nombres de hombre",
+        "Nombres de mujer",
+        "Ciudades de Europa",
+        "Ciudades de América",
+        "Animales",
+        "Frutas y verduras",
+        "Países del mundo",
+        "Marcas de coches",
+        "Instrumentos musicales",
+        "Deportes",
+        "Cantantes famosos",
+        "Películas",
+        "Libros",
+        "Personajes de ficción",
+        "Juegos de mesa",
+        "Elementos químicos",
+        "Herramientas",
+        "Idiomas",
+        "Canciones",
+        "Platos típicos",
+        "Profesiones",
+        "Deportistas famosos",
+        "Ríos importantes",
+        "Montañas del mundo",
+        "Capitales de país",
+        "Videojuegos",
+        "Juguetes",
+        "Marcas de moda",
+        "Instrumentos de laboratorio",
+        "Plantas"];
+
+let yaJugadas=document.getElementById("yaJugadas")
+let porJugar = document.getElementById("porJugar")
+const myModal = document.getElementById('exampleModal')
+const myInput = document.getElementById('myInput')
+
+
+    
+  
+    let bandera = true;
+    let rollear = document.getElementById("rollear");
+    let categoriaNueva = document.getElementById("categoriaPersonalizada");
+    let agregarCategoria = document.getElementById("agregarCategoria");
+    let categoriaAJugar = document.getElementById("categoriaAJugar");
+    let reiniciar = document.getElementById("reinciar");
+    let segundos = 60
+    let timer = document.getElementById("timer");
+    let vaciar = document.getElementById("vaciar");
+    
+    function agregarCategoriaAArray(elemento, array) {
+        if (categoriaNueva.value == "") {
+            Swal.fire({
+                title: "Categoría no valida",
+                text: "El campo no puede estar vacío",
+            })
+
+        } else {
+            array.push(elemento);
+            console.log(array)
+            return array;
+
+    }
+
+
+    }
+
+    // Envuelve la llamada a agregarCategoriaAArray en una función anónima
+    agregarCategoria.addEventListener('click', function () {
+        agregarCategoriaAArray(categoriaNueva.value, CATEGORIAS);
+        categoriaNueva.value = "";
+    });
+
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
+    function rollearCategoria() {
+        if (CATEGORIAS.length == 0) {
+            categoriaAJugar.innerText = "No quedan categorías para jugar. Clic en el botón verde para reiniciar."
+            CATEGORIAS = ["Nombres de hombre",
+        "Nombres de mujer",
+        "Ciudades de Europa",
+        "Ciudades de América",
+        "Animales",
+        "Frutas y verduras",
+        "Países del mundo",
+        "Marcas de coches",
+        "Instrumentos musicales",
+        "Deportes",
+        "Cantantes famosos",
+        "Películas",
+        "Libros",
+        "Personajes de ficción",
+        "Juegos de mesa",
+        "Elementos químicos",
+        "Herramientas",
+        "Idiomas",
+        "Canciones",
+        "Platos típicos",
+        "Profesiones",
+        "Deportistas famosos",
+        "Capitales de país",
+        "Videojuegos",
+        "Juguetes",
+        "Marcas de ropa",
+        "Sabores de empanadas","Sabores de helado", "Bandas", "Mares/oceanos/ríos"];
+        USADAS = []
+        } else {
+
+            let posicion = getRandomInt(CATEGORIAS.length)
+            console.log(posicion)
+            let proximo = CATEGORIAS.splice(posicion, 1)
+            console.log(proximo)
+            USADAS.push(proximo)
+            categoriaAJugar.innerText = proximo
+            return proximo
+        }
+
+    }
+    rollear.addEventListener("click", function () {
+        categoriaAJugar.value = rollearCategoria()
+        bandera = true
+        mostrarTiempoTranscurrido()
+        end = Date.now() + 60 * 1000
+    })
+
+
+    reiniciar.addEventListener("click", function () {
+        categoriaAJugar.innerText = "Click en el boton verde para empezar"
+        timer.innerText = `Timer: 60 segundos`
+        bandera = false
+        USADAS =[]
+        CATEGORIAS = ["Nombres de hombre",
+        "Nombres de mujer",
+        "Ciudades de Europa",
+        "Ciudades de América",
+        "Animales",
+        "Frutas y verduras",
+        "Países del mundo",
+        "Marcas de coches",
+        "Instrumentos musicales",
+        "Deportes",
+        "Cantantes famosos",
+        "Películas",
+        "Libros",
+        "Personajes de ficción",
+        "Juegos de mesa",
+        "Elementos químicos",
+        "Herramientas",
+        "Idiomas",
+        "Canciones",
+        "Platos típicos",
+        "Profesiones",
+        "Deportistas famosos",
+        "Capitales de país",
+        "Videojuegos",
+        "Juguetes",
+        "Marcas de ropa",
+        "Sabores de empanadas","Sabores de helado", "Bandas", "Mares/oceanos/ríos"];
+    })
+
+
+    myInput.addEventListener("click",function(){
+    porJugar.innerHTML=`<h3>Restantes:</h3> ${CATEGORIAS}`
+    yaJugadas.innerHTML=`<h3>Ya jugadas:</h3> ${USADAS}`
+})
+
+    let end = Date.now() + 30 * 1000; //Aqui tomamos el tiempo de cuando queremos que el contador termine (En 60 segundos a partir de ahora)
+
+    function mostrarTiempoTranscurrido() {
+        const tiempoTranscurrido = Math.floor((end - Date.now()) / 1000);
+        if (tiempoTranscurrido > 0 && bandera == true) {
+            timer.innerText = `Tiempo: ${tiempoTranscurrido} segundos`
+            //Programamos para que se revise de nuevo el tiempo transcurrido en 500ms
+            setTimeout(mostrarTiempoTranscurrido, 500);
+        } else if (tiempoTranscurrido <= 0) {
+            Swal.fire({
+                title: "Sin tiempo",
+                text: "Se termino el tiempo",
+            })
+            end = Date.now() + 30 * 1000
+        }
+    }
+
+    vaciar.addEventListener("click",function (){
+    CATEGORIAS = []
+    })
+
+
+
+
+
+</script>
+
+</html>
