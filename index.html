@@ -202,8 +202,6 @@ const myInput = document.getElementById('myInput')
 
     reiniciar.addEventListener("click", function () {
         categoriaAJugar.innerText = "Click en el boton verde para empezar"
-        timer.innerText = `Timer: 60 segundos`
-        bandera = false
         USADAS =[]
         CATEGORIAS = ["Nombres de hombre",
         "Nombres de mujer",
@@ -240,26 +238,7 @@ const myInput = document.getElementById('myInput')
     yaJugadas.innerHTML=`<h3>Ya jugadas:</h3> ${USADAS}`
 })
 
-    let end = Date.now() + 30 * 1000; //Aqui tomamos el tiempo de cuando queremos que el contador termine (En 60 segundos a partir de ahora)
 
-    function mostrarTiempoTranscurrido() {
-        const tiempoTranscurrido = Math.floor((end - Date.now()) / 1000);
-        if (tiempoTranscurrido > 0 && bandera == true) {
-            timer.innerText = `Tiempo: ${tiempoTranscurrido} segundos`
-            //Programamos para que se revise de nuevo el tiempo transcurrido en 500ms
-            setTimeout(mostrarTiempoTranscurrido, 500);
-        } else if (tiempoTranscurrido <= 0) {
-            Swal.fire({
-                title: "Sin tiempo",
-                text: "Se termino el tiempo",
-            })
-            end = Date.now() + 30 * 1000
-        }
-    }
-
-    vaciar.addEventListener("click",function (){
-    CATEGORIAS = []
-    })
 
 
 
