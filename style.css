@@ -38,6 +38,10 @@ html {
 
 body {
   margin: 0;
+  background-image: url(./gradients-5485047_1920.jpg);
+  background-size: cover; /* Resize the background image to cover the entire container */
+
+
 }
 
 /**
