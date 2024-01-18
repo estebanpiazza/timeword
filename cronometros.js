@@ -1,7 +1,8 @@
 let players = [];
 let currentPlayerIndex = 0;
-let countdownValue = ""
+let countdownValue = 60;
 let countdownInterval;
+let playerCountdowns = [];
 
 function openModal() {
     document.getElementById('myModal').style.display = 'block';
@@ -13,60 +14,39 @@ function closeModal() {
 
 function configurePlayers() {
     const playerCount = parseInt(document.getElementById('playerCount').value);
+    playerCountdowns = Array(playerCount).fill(countdownValue);
 
-    // Limpiar el contenedor de nombres de jugadores
     document.getElementById('playerNamesContainer').innerHTML = '';
 
-    // Crear campos de entrada para los nombres de los jugadores
     for (let i = 1; i <= playerCount; i++) {
         const playerNameInput = document.createElement('input');
         playerNameInput.type = 'text';
         playerNameInput.placeholder = `Nombre del Jugador ${i}`;
         document.getElementById('playerNamesContainer').appendChild(playerNameInput);
     }
-    
 }
 
 function acceptNames() {
-    // Guardar los nombres ingresados
     const inputs = document.getElementById('playerNamesContainer').querySelectorAll('input');
     players = Array.from(inputs).map(input => input.value);
-    console.log(players)
-    // Cerrar el modal
-    closeModal();
 
-    // Iniciar el juego
+    closeModal();
     resetGame();
-    countdownValue = document.getElementById("segundosAJugar").value;
-    console.log(countdownValue)
 }
 
 function resetGame() {
-    // Reiniciar el juego
     updatePlayerInfo();
     startCountdown();
 }
 
 function nextPlayer() {
-    // Pasar al siguiente jugador
     currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
     updatePlayerInfo();
-
 }
 
 function startCountdown() {
-    const playerCountdowns = [];
-    const rangeValue = parseInt(document.getElementById('playerCount').value);
-
-    // Inicializar todos los relojes de jugadores
-    for (let i = 0; i < rangeValue; i++) {
-        playerCountdowns[i] = countdownValue;
-    }
-
-    // Mostrar el primer jugador
     updatePlayerInfo();
 
-    // Iniciar el cronómetro
     countdownInterval = setInterval(function() {
         playerCountdowns[currentPlayerIndex]--;
 
@@ -75,8 +55,20 @@ function startCountdown() {
         } else {
             clearInterval(countdownInterval);
             nextPlayer();
+            resetCountdown();
         }
     }, 1000);
+}
+
+function resetCountdown() {
+    clearInterval(countdownInterval);
+
+    // Reiniciar todos los cronómetros de los jugadores
+    for (let i = 0; i < playerCountdowns.length; i++) {
+        playerCountdowns[i] = countdownValue;
+    }
+
+    startCountdown();
 }
 
 function updatePlayerInfo() {
@@ -84,15 +76,7 @@ function updatePlayerInfo() {
     document.getElementById('countdown').textContent = playerCountdowns[currentPlayerIndex];
 }
 
-function resetCountdown() {
-    // Reiniciar el cronómetro
-    clearInterval(countdownInterval);
-    countdownValue = document.getElementById("segundosAJugar").value;
-    startCountdown();
-}
-
-function updatePlayerInfo() {
-    // Actualizar la información del jugador actual
-    document.getElementById('currentPlayer').textContent = players[currentPlayerIndex];
-}
-
+document.getElementById("rollear").addEventListener("click", function(){
+    console.log("relojes reiniciados")
+    resetCountdown()
+})

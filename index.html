@@ -22,7 +22,7 @@
                 <h1>Próxima categoría:</h1>
                 <h2 id="categoriaAJugar" style="margin:50px">Click en el boton verde para empezar</h2>
 
-                <button type="button" class="btn btn-success" id="rollear" style="margin-bottom:50px">Siguiente
+                <button type="button" class="btn btn-success" id="rollear" style="margin-bottom:50px" >Siguiente
                     categoría</button>
             </div>
             <div class="col-12">
@@ -44,6 +44,7 @@
                 <h1>Nombres de jugadores:</h1>
                 <button type="button" onclick="openModal()" class="btn btn-success" id="nombres" style="margin-bottom:50px">Cargar
                     Nombres</button>
+ 
 
 
                 <!-- El modal -->
@@ -62,20 +63,20 @@
                         <!-- Contenedor para los nombres de los jugadores -->
                         <div id="playerNamesContainer"></div>
                         <br>
+
                         <!-- Botón de aceptar -->
                         <button onclick="acceptNames()" class="btn btn-success" >Aceptar</button>
               
             </div></div>
 <hr>
 <div class="col-12">
+    <h2>
+        <div id="timer">Tiempo restante: <span id="countdown">-</span> segundos</div>
+        <div id="playerName">Jugador actual: <span id="currentPlayer">-</span></div>
+    </h2>
     
-
-<h2>
-            <div id="timer">Tiempo restante: <span id="countdown">-</span> segundos</div>
-<div id="playerName">Jugador actual: <span id="currentPlayer">-</span></div></h2>
-<button type="button"  class="btn btn-primary" id="nextPlayerButton" style="padding:20px" onclick="nextPlayer()">Siguiente Jugador</button>
- <br>
-<button type="button"  class="btn btn-danger" style="margin-top:5vh"onclick="resetCountdown()"> Siguiente ronda</button>
+    <button type="button" style="width: 20vw;height: 20vh;" class="btn btn-primary btn-lg" id="nextPlayerButton" onclick="nextPlayer()">Siguiente Jugador</button>
+    <br>
 
 </div>
 

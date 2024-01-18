@@ -120,7 +120,6 @@ const myInput = document.getElementById('myInput')
     rollear.addEventListener("click", function () {
         categoriaAJugar.value = rollearCategoria()
         bandera = true
-        mostrarTiempoTranscurrido()
         end = Date.now() + 60 * 1000
     })
 
